@@ -6,9 +6,8 @@
 <meta name="apple-mobile-web-app-title" content="Chiara · Caja">
 <meta name="theme-color" content="#1F4E79">
 <meta name="format-detection" content="telephone=no">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="apple-touch-icon.png">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%231F4E79'/%3E%3Ctext x='90' y='120' font-family='Georgia,serif' font-size='86' fill='%23FAF7F1' text-anchor='middle' letter-spacing='3'%3ECR%3C/text%3E%3Ccircle cx='142' cy='42' r='13' fill='%2300B050'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=3">
+<link rel="icon" type="image/png" href="apple-touch-icon.png?v=3">
 <title>Chiara Romani · Flujo de caja</title>
 <style>
   :root{
@@ -34,31 +33,34 @@
   button{-webkit-appearance:none;appearance:none}
   .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
   .wrap{max-width:760px;margin:0 auto;padding:0 14px 120px}
-
+ 
   /* Header */
   header{
     position:sticky;top:0;z-index:30;margin:0 -14px 14px;padding:14px 16px 12px;
     background:linear-gradient(180deg,var(--navy),var(--navy-d));
     color:#fff;box-shadow:0 6px 18px rgba(22,57,92,.28);
   }
+  .hrow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .hbtns{display:flex;align-items:center;gap:8px;flex:none}
   .brand{
     font-family:Georgia,"Times New Roman",serif;font-size:20px;letter-spacing:4px;
-    font-weight:400;margin:0;line-height:1;cursor:pointer;display:inline-block;
+    font-weight:400;margin:0;line-height:1.05;cursor:pointer;flex:1;min-width:0;
+    display:flex;align-items:baseline;gap:5px;
   }
-  .brand .chev{font-family:-apple-system,system-ui,sans-serif;font-size:13px;letter-spacing:0;color:#9db8d4;vertical-align:2px;margin-left:-2px}
+  .brand .storetxt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+  .brand .chev{font-family:-apple-system,system-ui,sans-serif;font-size:13px;letter-spacing:0;color:#9db8d4;flex:none}
   .brand:active{opacity:.7}
-  .brand small{display:block;font-family:-apple-system,system-ui,sans-serif;
-    letter-spacing:.5px;font-size:11px;color:#bcd0e6;margin-top:5px;font-weight:500;text-transform:uppercase}
-  .gear{position:absolute;top:14px;right:14px;width:34px;height:34px;border:0;border-radius:10px;
+  .brand-sub{font-family:-apple-system,system-ui,sans-serif;letter-spacing:.3px;font-size:11px;color:#bcd0e6;margin-top:6px;font-weight:500}
+  .gear{width:34px;height:34px;border:0;border-radius:10px;flex:none;
     background:rgba(255,255,255,.12);color:#fff;font-size:16px;cursor:pointer;display:grid;place-items:center}
   .gear:active{background:rgba(255,255,255,.24)}
-
+ 
   /* Tabs */
   .tabs{display:flex;gap:6px;margin-top:14px;background:rgba(255,255,255,.12);padding:4px;border-radius:12px}
   .tabs button{flex:1;border:0;background:transparent;color:#cfe0f1;font-weight:600;font-size:13.5px;
     padding:9px 6px;border-radius:9px;cursor:pointer;letter-spacing:.2px}
   .tabs button.on{background:#fff;color:var(--navy)}
-
+ 
   /* Summary strip */
   .sum{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-bottom:12px}
   .sum .cell{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:11px 12px;box-shadow:var(--shadow)}
@@ -66,7 +68,7 @@
   .sum .v{font-size:19px;font-weight:750;margin-top:3px;letter-spacing:-.3px}
   .sum .cell.inc .v{color:var(--in)} .sum .cell.exp .v{color:var(--out)} .sum .cell.net .v{color:var(--navy)}
   .sum .sub{font-size:11px;color:var(--muted-2);margin-top:2px}
-
+ 
   /* Month nav */
   .mnav{display:flex;align-items:center;justify-content:space-between;margin:2px 2px 10px}
   .mnav .title{font-weight:750;font-size:17px;letter-spacing:-.2px;text-transform:capitalize}
@@ -75,21 +77,28 @@
     font-size:16px;cursor:pointer;color:var(--navy);display:grid;place-items:center}
   .mnav .today{width:auto;padding:0 12px;font-size:13px;font-weight:650}
   .mnav button:active{background:var(--line-2)}
-
+ 
   /* Display toggle + sync */
   .disprow{display:flex;align-items:center;justify-content:space-between;margin:0 2px 11px;gap:10px}
   .disprow .lab{font-size:11.5px;color:var(--muted);font-weight:600}
   .seg2{display:flex;gap:4px;background:var(--card);border:1px solid var(--line);padding:3px;border-radius:10px}
   .seg2 button{border:0;background:transparent;color:var(--muted);font-weight:700;font-size:12px;padding:6px 11px;border-radius:8px;cursor:pointer}
   .seg2 button.on{background:var(--navy);color:#fff}
-  .syncpill{position:absolute;top:15px;right:56px;display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;
+  .syncpill{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;flex:none;white-space:nowrap;
     color:#dbe8f5;background:rgba(255,255,255,.12);padding:6px 10px;border-radius:20px;cursor:pointer;border:0}
   .syncpill .d{width:7px;height:7px;border-radius:50%;background:#9aa9bd;flex:none}
   .syncpill.ok .d{background:var(--in)} .syncpill.err .d{background:#ff7a6b} .syncpill.busy .d{background:#ffd166;animation:pulse 1s infinite}
   @keyframes pulse{50%{opacity:.35}}
   .btn-sec{width:100%;border:1px solid var(--line);border-radius:12px;background:#fbfcfe;color:var(--navy);font-weight:700;font-size:14px;padding:11px;cursor:pointer;margin-top:8px}
   .sync-note{font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.4}
-
+  /* Accordions (ajustes) */
+  .acc{border:1px solid var(--line);border-radius:12px;margin-top:10px;overflow:hidden;background:var(--card)}
+  .acc-h{width:100%;border:0;background:var(--line-2);text-align:left;font-weight:750;font-size:14px;padding:13px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:var(--ink)}
+  .acc-i{color:var(--muted);font-size:12px;transition:transform .2s;flex:none}
+  .acc.open .acc-i{transform:rotate(180deg)}
+  .acc-b{padding:2px 14px 14px;display:none}
+  .acc.open .acc-b{display:block}
+ 
   /* Calendar */
   .cal{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
   .dow{display:grid;grid-template-columns:repeat(7,1fr);background:var(--navy);color:#dbe8f5}
@@ -109,14 +118,14 @@
   .chip.in{background:var(--in-soft);color:#0a6b34} .chip.out{background:var(--out-soft);color:#9c1616}
   .more{font-size:9px;color:var(--muted-2);font-weight:700;padding-left:2px}
   .dot{width:6px;height:6px;border-radius:50%;display:inline-block}
-
+ 
   /* Flow sparkline */
   .flow{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px 12px 8px;margin-top:12px;box-shadow:var(--shadow)}
   .flow h3,.list h3,.up h3{margin:0 0 8px;font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);font-weight:750}
   .flow svg{display:block;width:100%;height:78px}
   .flow .leg{display:flex;gap:14px;margin-top:6px;font-size:11px;color:var(--muted);font-weight:600}
   .flow .leg i{width:9px;height:9px;border-radius:2px;display:inline-block;margin-right:4px;vertical-align:-1px}
-
+ 
   /* Upcoming */
   .up{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px;margin-top:12px;box-shadow:var(--shadow)}
   .row{display:flex;align-items:center;gap:10px;padding:9px 2px;border-top:1px solid var(--line-2)}
@@ -133,7 +142,7 @@
   .badge{font-size:9px;font-weight:800;letter-spacing:.4px;padding:1px 5px;border-radius:5px;text-transform:uppercase}
   .badge.est{background:var(--amber);color:#8a6d10} .badge.pend{background:var(--sky);color:#1c4e79}
   .empty{color:var(--muted);font-size:13px;padding:14px 4px;text-align:center}
-
+ 
   /* Gastos list */
   .list{margin-top:2px}
   .grp{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);margin-bottom:12px;overflow:hidden}
@@ -151,12 +160,12 @@
   .item .amt b{font-size:15px;font-weight:750}
   .item .amt.in b{color:var(--in)} .item .amt.out b{color:var(--out)}
   .item .amt .sec{font-size:10.5px;color:var(--muted-2);font-weight:600}
-
+ 
   .fab{position:fixed;right:calc(env(safe-area-inset-right) + 16px);bottom:calc(env(safe-area-inset-bottom) + 18px);
     z-index:40;height:52px;padding:0 20px;border:0;border-radius:26px;background:var(--navy);color:#fff;
     font-size:15px;font-weight:700;box-shadow:0 8px 22px rgba(31,78,121,.4);cursor:pointer;display:flex;gap:8px;align-items:center}
   .fab:active{transform:translateY(1px)}
-
+ 
   /* Modal / sheet */
   .scrim{position:fixed;inset:0;background:rgba(15,36,56,.5);z-index:50;display:none;align-items:flex-end;justify-content:center}
   .scrim.on{display:flex}
@@ -167,7 +176,7 @@
   .handle{width:38px;height:4px;border-radius:2px;background:#d3dce7;margin:8px auto 12px}
   .sheet h2{margin:2px 2px 12px;font-size:18px;font-weight:750;display:flex;justify-content:space-between;align-items:center}
   .sheet h2 .x{border:0;background:var(--line-2);width:30px;height:30px;border-radius:50%;font-size:16px;cursor:pointer;color:var(--muted)}
-
+ 
   label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin:12px 2px 5px;letter-spacing:.2px}
   input,select{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px 12px;font-size:16px;
     background:#fbfcfe;color:var(--ink);font-family:inherit}
@@ -183,7 +192,7 @@
   .save:active{background:var(--navy-d)}
   .del{margin-top:9px;width:100%;border:1px solid var(--out-line);border-radius:13px;background:#fff;color:var(--out);font-size:14px;font-weight:700;padding:11px;cursor:pointer}
   .mini{font-size:11.5px;color:var(--muted-2);margin-top:4px;line-height:1.35}
-
+ 
   /* Day sheet events */
   .devt{display:flex;align-items:center;gap:10px;padding:11px 4px;border-top:1px solid var(--line-2)}
   .devt:first-of-type{border-top:0}
@@ -194,18 +203,23 @@
   .lk{color:var(--navy);font-weight:700;background:none;border:0;font-size:14px;cursor:pointer;padding:6px 0}
   .lk.danger{color:var(--out)}
 </style>
-
+ 
 <div class="wrap">
   <header>
-    <h1 class="brand" id="brandName" onclick="openStores()"><span class="storetxt">CHIARA ROMANI</span> <span class="chev">▾</span><small>Flujo de caja · toca el nombre para cambiar de tienda</small></h1>
-    <button class="syncpill" id="syncpill" onclick="openSettings()"><span class="d"></span><span id="synctxt">Local</span></button>
-    <button class="gear" id="gear" aria-label="Ajustes">⚙</button>
+    <div class="hrow">
+      <h1 class="brand" id="brandName" onclick="openStores()"><span class="storetxt">CHIARA ROMANI</span> <span class="chev">▾</span></h1>
+      <div class="hbtns">
+        <button class="syncpill" id="syncpill" onclick="openSettings()"><span class="d"></span><span id="synctxt">Local</span></button>
+        <button class="gear" id="gear" aria-label="Ajustes">⚙</button>
+      </div>
+    </div>
+    <div class="brand-sub">Flujo de caja · toca el nombre para cambiar de tienda</div>
     <div class="tabs">
       <button id="tab-cal" class="on" onclick="setTab('cal')">Calendario</button>
       <button id="tab-gastos" onclick="setTab('gastos')">Gastos & Suscripciones</button>
     </div>
   </header>
-
+ 
   <!-- CALENDAR VIEW -->
   <section id="view-cal">
     <div class="sum">
@@ -213,7 +227,7 @@
       <div class="cell exp"><div class="k">Sale</div><div class="v num" id="s-out">–</div><div class="sub" id="s-out-n"></div></div>
       <div class="cell net"><div class="k">Neto mes</div><div class="v num" id="s-net">–</div><div class="sub">en €</div></div>
     </div>
-
+ 
     <div class="disprow">
       <span class="lab">Mostrar en el calendario</span>
       <div class="seg2" id="chip-seg">
@@ -221,7 +235,7 @@
         <button id="cm-name" onclick="setChipMode('name')">Aa Nombre</button>
       </div>
     </div>
-
+ 
     <div class="mnav">
       <div class="title" id="mtitle"></div>
       <div class="btns">
@@ -230,54 +244,54 @@
         <button onclick="shiftMonth(1)" aria-label="Mes siguiente">›</button>
       </div>
     </div>
-
+ 
     <div class="cal">
       <div class="dow"><div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div><div>Dom</div></div>
       <div class="grid" id="grid"></div>
     </div>
-
+ 
     <div class="flow">
       <h3>Flujo del mes · cuándo entra y sale el dinero</h3>
       <svg id="spark" viewBox="0 0 700 160" preserveAspectRatio="none"></svg>
       <div class="leg"><span><i style="background:var(--in)"></i>Entradas</span><span><i style="background:var(--out)"></i>Salidas</span></div>
     </div>
-
+ 
     <div class="up">
       <h3>Próximos 10 movimientos</h3>
       <div id="upcoming"></div>
     </div>
   </section>
-
+ 
   <!-- GASTOS VIEW -->
   <section id="view-gastos" style="display:none">
     <div class="list" id="glist"></div>
   </section>
 </div>
-
+ 
 <button class="fab" id="fab" onclick="openForm()">＋ Añadir</button>
-
+ 
 <!-- FORM SHEET -->
 <div class="scrim" id="scrim-form">
   <div class="sheet">
     <div class="handle"></div>
     <h2><span id="form-title">Nuevo movimiento</span><button class="x" onclick="closeSheet('scrim-form')">✕</button></h2>
-
+ 
     <div class="seg" id="type-seg">
       <button type="button" class="on in" data-t="income" onclick="setType('income')">Entrada</button>
       <button type="button" class="out" data-t="expense" onclick="setType('expense')">Gasto</button>
     </div>
-
+ 
     <label>Nombre</label>
     <input id="f-name" placeholder="Ej. Triple Whale, Payout Shopify…">
-
+ 
     <div class="two">
       <div><label>Importe</label><input id="f-amount" type="number" inputmode="decimal" step="0.01" placeholder="0.00"></div>
       <div><label>Divisa</label><select id="f-cur"><option value="EUR">EUR €</option><option value="USD">USD $</option></select></div>
     </div>
-
+ 
     <label>Categoría</label>
     <select id="f-cat"></select>
-
+ 
     <label>Frecuencia</label>
     <select id="f-freq" onchange="freqUI()">
       <option value="monthly">Mensual (día del mes)</option>
@@ -285,7 +299,7 @@
       <option value="yearly">Anual</option>
       <option value="once">Una sola vez (fecha)</option>
     </select>
-
+ 
     <div id="freq-monthly"><label>Día del mes (1–31)</label><input id="f-dom" type="number" min="1" max="31" value="1"></div>
     <div id="freq-weekly" style="display:none"><label>Día de la semana</label>
       <select id="f-wd"><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option><option value="0">Domingo</option></select></div>
@@ -293,19 +307,19 @@
       <div><label>Mes</label><select id="f-ym"></select></div>
       <div><label>Día</label><input id="f-yd" type="number" min="1" max="31" value="1"></div></div></div>
     <div id="freq-once" style="display:none"><label>Fecha</label><input id="f-date" type="date"></div>
-
+ 
     <div class="chkrow"><input type="checkbox" id="f-est"><label for="f-est">Importe estimado (a confirmar)</label></div>
     <div class="chkrow"><input type="checkbox" id="f-active" checked><label for="f-active">Activo</label></div>
-
+ 
     <label>Nota (opcional)</label>
     <input id="f-note" placeholder="Ej. cuenta EUR, +3.4% FX Mercury…">
     <div class="mini" id="f-hint"></div>
-
+ 
     <button class="save" onclick="saveForm()">Guardar</button>
     <button class="del" id="f-del" style="display:none" onclick="deleteItem()">Eliminar</button>
   </div>
 </div>
-
+ 
 <!-- STORES SHEET -->
 <div class="scrim" id="scrim-stores">
   <div class="sheet">
@@ -318,7 +332,7 @@
     <button class="save" onclick="addStore()">Crear tienda</button>
   </div>
 </div>
-
+ 
 <!-- DAY SHEET -->
 <div class="scrim" id="scrim-day">
   <div class="sheet">
@@ -333,49 +347,63 @@
     <button class="save" style="background:var(--in);margin-top:16px" onclick="openForm(null, currentDayISO)">＋ Añadir movimiento este día</button>
   </div>
 </div>
-
+ 
 <!-- SETTINGS SHEET -->
 <div class="scrim" id="scrim-set">
   <div class="sheet">
     <div class="handle"></div>
     <h2><span>Ajustes</span><button class="x" onclick="closeSheet('scrim-set')">✕</button></h2>
-    <label>Tipo de cambio EUR/USD (USD por 1 €)</label>
-    <input id="set-fx" type="number" step="0.001" value="1.14">
-    <div class="mini">Se usa para convertir los importes en $ a € en los totales. Tu balance marca 1.14.</div>
-    <button class="save" onclick="saveSettings()">Guardar tipo de cambio</button>
-    <div style="margin-top:22px;border-top:1px solid var(--line-2);padding-top:8px">
-      <h2 style="font-size:15px;margin:8px 2px 2px">Sincronizar iPhone ↔ Mac</h2>
-      <div class="sync-note">Usa un <b>Gist privado de GitHub</b> como nube. Pon el <b>mismo token y Gist ID</b> en los dos dispositivos y se mantienen iguales.</div>
-      <label>GitHub token (scope: gist)</label>
-      <input id="set-token" type="text" placeholder="ghp_… / github_pat_…" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore>
-      <label>Gist ID</label>
-      <input id="set-gist" placeholder="pega el ID, o pulsa Crear abajo" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false">
-      <button class="btn-sec" onclick="doCreateGist()">Crear Gist nuevo (solo la 1ª vez)</button>
-      <button class="save" style="margin-top:8px" onclick="saveSync()">Guardar y sincronizar</button>
-      <div class="sync-note" id="sync-note"></div>
+ 
+    <div class="acc" id="acc-fx">
+      <button class="acc-h" onclick="toggleAcc('acc-fx')">Tipo de cambio <span class="acc-i">▾</span></button>
+      <div class="acc-b">
+        <label>EUR/USD (USD por 1 €)</label>
+        <input id="set-fx" type="number" step="0.001" value="1.14">
+        <div class="mini">Convierte los importes en $ a € en los totales. Tu balance marca 1.14.</div>
+        <button class="save" onclick="saveSettings()">Guardar tipo de cambio</button>
+      </div>
     </div>
-
-    <div style="margin-top:22px;border-top:1px solid var(--line-2);padding-top:8px">
-      <h2 style="font-size:15px;margin:8px 2px 2px">Importar movimientos</h2>
-      <div class="sync-note">Pega el JSON que te prepare (p.ej. los payouts reconstruidos del CSV). Se añaden o actualizan sin duplicar, y se sincronizan solos.</div>
-      <textarea id="imp-json" rows="4" placeholder='[ {"date":"2026-08-04","amount":1436.15,"cur":"USD","name":"Payout Shopify"} ]' style="width:100%;border:1px solid var(--line);border-radius:11px;padding:11px 12px;font-size:12.5px;background:#fbfcfe;color:var(--ink);font-family:ui-monospace,Menlo,monospace;resize:vertical;margin-top:4px"></textarea>
-      <button class="save" style="margin-top:8px" onclick="importJSON()">Importar</button>
-      <div class="sync-note" id="imp-note"></div>
+ 
+    <div class="acc" id="acc-sync">
+      <button class="acc-h" onclick="toggleAcc('acc-sync')">Sincronizar iPhone ↔ Mac <span class="acc-i">▾</span></button>
+      <div class="acc-b">
+        <div class="sync-note">Usa un <b>Gist privado de GitHub</b> como nube. Pon el <b>mismo token y Gist ID</b> en los dos dispositivos y se mantienen iguales.</div>
+        <label>GitHub token (scope: gist)</label>
+        <input id="set-token" type="text" placeholder="ghp_… / github_pat_…" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore>
+        <label>Gist ID</label>
+        <input id="set-gist" placeholder="pega el ID, o pulsa Crear abajo" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false">
+        <button class="btn-sec" onclick="doCreateGist()">Crear Gist nuevo (solo la 1ª vez)</button>
+        <button class="save" style="margin-top:8px" onclick="saveSync()">Guardar y sincronizar</button>
+        <div class="sync-note" id="sync-note"></div>
+      </div>
     </div>
-
-    <div style="margin-top:20px">
-      <div class="setrow"><span style="font-weight:650">Restaurar datos de ejemplo</span><button class="lk" onclick="seedReset()">Restaurar</button></div>
-      <div class="setrow"><span style="font-weight:650">Borrar todos los movimientos</span><button class="lk danger" onclick="wipe()">Borrar todo</button></div>
+ 
+    <div class="acc" id="acc-imp">
+      <button class="acc-h" onclick="toggleAcc('acc-imp')">Importar movimientos <span class="acc-i">▾</span></button>
+      <div class="acc-b">
+        <div class="sync-note">Pega el JSON que te prepare (p.ej. los payouts del CSV). Se añaden o actualizan sin duplicar, y se sincronizan solos.</div>
+        <textarea id="imp-json" rows="4" placeholder='[ {"date":"2026-08-04","amount":1436.15,"cur":"USD","name":"Payout Shopify"} ]' style="width:100%;border:1px solid var(--line);border-radius:11px;padding:11px 12px;font-size:12.5px;background:#fbfcfe;color:var(--ink);font-family:ui-monospace,Menlo,monospace;resize:vertical;margin-top:4px"></textarea>
+        <button class="save" style="margin-top:8px" onclick="importJSON()">Importar</button>
+        <div class="sync-note" id="imp-note"></div>
+      </div>
     </div>
-    <div class="mini" style="margin-top:14px">Consejo: en iPhone/Mac usa «Compartir → Añadir a pantalla de inicio» para abrirlo como app a pantalla completa.</div>
+ 
+    <div class="acc" id="acc-data">
+      <button class="acc-h" onclick="toggleAcc('acc-data')">Datos <span class="acc-i">▾</span></button>
+      <div class="acc-b">
+        <div class="setrow"><span style="font-weight:650">Restaurar datos de ejemplo</span><button class="lk" onclick="seedReset()">Restaurar</button></div>
+        <div class="setrow"><span style="font-weight:650">Borrar todos los movimientos</span><button class="lk danger" onclick="wipe()">Borrar todo</button></div>
+        <div class="mini" style="margin-top:12px">Consejo: en iPhone/Mac usa «Compartir → Añadir a pantalla de inicio» para abrirlo como app a pantalla completa.</div>
+      </div>
+    </div>
   </div>
 </div>
-
+ 
 <script>
 const CATS = ["Payout Shopify","Suscripción app","Software / SaaS","Publicidad (Meta)","Proveedor (Mike)","Banco / comisiones","Impuesto / tasa","Nómina / retiro","Otros ingresos","Otros gastos"];
 const MONTHS = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
 const MONTHS_S = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
-
+ 
 let items = [];
 let settings = { fx: 1.14, chipMode:"amount", _u:0 };
 let view = new Date();                  // arranca en el mes actual
@@ -398,7 +426,7 @@ const K_GH = "crm_gh_cfg";               // token + gist id: locales por disposi
 let gh = { token:"", gist:"" };
 let gone = {};                           // lápidas de borrados: id -> timestamp (para que no revivan al sincronizar)
 let syncTimer = null;
-
+ 
 /* ---------- storage helpers (auto-detect) ----------
    Dentro de Claude: usa window.storage.
    En Safari / GitHub Pages (modo app): usa localStorage del dispositivo.
@@ -419,11 +447,11 @@ async function sSet(key,val){
   }
   lsSet(key,val);
 }
-
+ 
 /* ---------- sync via GitHub Gist: merge por elemento + lápidas ---------- */
 function now(){ return Date.now(); }
 let lastSyncTs = 0;
-
+ 
 function snapshot(){ return { v:2, u:now(), items, settings, gone }; }
 function ghCfgLoad(){ const c=lsGet(K_GH); if(c) gh=c; }
 function ghCfgSave(){ lsSet(K_GH, gh); }
@@ -432,7 +460,7 @@ function setSync(state, txt){ const p=document.getElementById("syncpill"); if(!p
   p.className="syncpill"+(state?(" "+state):""); document.getElementById("synctxt").textContent=txt; }
 function syncLabel(){ if(!lastSyncTs) return "Sincronizado"; const d=new Date(lastSyncTs);
   return "Al día · "+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0"); }
-
+ 
 async function ghFetch(path, opts){
   opts=opts||{};
   const h={ "Accept":"application/vnd.github+json", "X-GitHub-Api-Version":"2022-11-28", "Authorization":"Bearer "+gh.token };
@@ -448,7 +476,7 @@ async function ghFetch(path, opts){
   }
   return j;
 }
-
+ 
 /* merge: nada se pierde por llegar tarde. Gana la versión más nueva de cada elemento. */
 function mergeGone(a,b){ const lim=now()-90*86400000, o={}; [a||{},b||{}].forEach(src=>{ for(const k in src){ if(src[k]>lim && (!o[k]||src[k]>o[k])) o[k]=src[k]; } }); return o; }
 function mergeItems(la,lb,g){
@@ -464,7 +492,7 @@ function mergeDB(local, remote){
   const settings2 = (rs._u||0) > (ls._u||0) ? {...ls, ...rs} : ls;
   return { items:items2, settings:settings2, gone:g };
 }
-
+ 
 async function gistPull(){
   const g=await ghFetch("/gists/"+gh.gist);
   const files=(g&&g.files)||{};
@@ -486,7 +514,7 @@ function mergeStores(remote){
   stores=Object.values(byId);
 }
 async function persistAll(){ await sSet(K_ITEMS,items); await sSet(K_SET,settings); await sSet(K_GONE,gone); }
-
+ 
 /* pull → merge → push */
 async function syncNow(silent){
   if(!ghReady()){ setSync("","Local"); return false; }
@@ -531,7 +559,7 @@ async function saveSync(){
   const ok=await syncNow(false);
   if(ok) note.textContent="Listo. Pon el mismo token y Gist ID en el otro dispositivo.";
 }
-
+ 
 /* importar movimientos desde JSON pegado. Idempotente: id estable por tipo+fecha+importe si no traen id. */
 function importJSON(){
   const note=document.getElementById("imp-note");
@@ -556,7 +584,7 @@ function importJSON(){
   document.getElementById("imp-json").value="";
   note.textContent=`Importados: ${added} nuevos, ${updated} actualizados`+(skipped?`, ${skipped} descartados`:"")+".";
 }
-
+ 
 /* ---------- chip display mode ---------- */
 function shortName(n){ n=(n||"").replace("Payout Shopify","Payout").replace(" (plan)",""); return n.length>11?n.slice(0,10)+"…":n; }
 function reflectChipMode(){ const m=settings.chipMode||"amount";
@@ -564,7 +592,7 @@ function reflectChipMode(){ const m=settings.chipMode||"amount";
   if(a&&b){ a.classList.toggle("on",m==="amount"); b.classList.toggle("on",m==="name"); } }
 function setChipMode(m){ settings.chipMode=m; settings._u=Date.now(); reflectChipMode();
   sSet(K_SET,settings); scheduleSync(); renderCal(); }
-
+ 
 /* ---------- seed (solo el stack de apps; los payouts se cargan con datos reales) ---------- */
 function seedData(){
   const seed = [];
@@ -588,12 +616,12 @@ function mk(o){
     amount:+o.amount, cur:o.cur||"EUR", freq:o.freq, dom:o.dom||1, wd:o.wd??1,
     ym:o.ym??1, yd:o.yd??1, date:o.date||null, est:!!o.est, active:o.active!==false, note:o.note||"", u:o.u||Date.now()};
 }
-
+ 
 /* ---------- money ---------- */
 function toEUR(amount,cur){ return cur==="USD" ? amount/(settings.fx||1.14) : amount; }
 function fmtEUR(n){ return "€"+(Math.round(n)).toLocaleString("es-ES"); }
 function fmtNative(a,cur){ const s=cur==="USD"?"$":"€"; return s+a.toLocaleString("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2}); }
-
+ 
 /* ---------- occurrence expansion ---------- */
 function daysInMonth(y,m){ return new Date(y,m+1,0).getDate(); }
 function occDay(it,y,m){ // devuelve array de días (1..N) donde cae en el mes y/m (m=0-based)
@@ -611,7 +639,7 @@ function eventsForMonth(y,m){ // {day:[{it}], ...}
   items.forEach(it=>occDay(it,y,m).forEach(d=>{ (map[d]=map[d]||[]).push(it); }));
   return map;
 }
-
+ 
 /* ---------- render calendar ---------- */
 function isToday(y,m,d){ const t=new Date(); return t.getFullYear()===y&&t.getMonth()===m&&t.getDate()===d; }
 function renderCal(){
@@ -655,7 +683,7 @@ function renderCal(){
   renderSpark(y,m,map,dim);
   renderUpcoming();
 }
-
+ 
 /* ---------- sparkline flujo ---------- */
 function renderSpark(y,m,map,dim){
   const W=700,H=160,mid=H/2, gap=W/dim;
@@ -675,7 +703,7 @@ function renderSpark(y,m,map,dim){
   });
   document.getElementById("spark").innerHTML=s;
 }
-
+ 
 /* ---------- upcoming ---------- */
 function renderUpcoming(){
   const today=new Date(); today.setHours(0,0,0,0);
@@ -698,7 +726,7 @@ function renderUpcoming(){
     </div>`;
   }).join("");
 }
-
+ 
 /* ---------- day sheet ---------- */
 function openDay(iso){
   currentDayISO=iso;
@@ -720,7 +748,7 @@ function openDay(iso){
   }).join("") : `<div class="empty">Sin movimientos este día.</div>`;
   openSheet("scrim-day");
 }
-
+ 
 /* ---------- gastos list ---------- */
 function renderGastos(){
   const box=document.getElementById("glist");
@@ -765,7 +793,7 @@ function freqLabel(it){
   if(it.freq==="once") return it.date? new Date(it.date).toLocaleDateString("es-ES") : "una vez";
   return "";
 }
-
+ 
 /* ---------- form ---------- */
 function fillSelects(){
   document.getElementById("f-cat").innerHTML=CATS.map(c=>`<option>${c}</option>`).join("");
@@ -845,12 +873,12 @@ function deleteItem(){
   gone[editingId]=Date.now(); sSet(K_GONE,gone);
   items=items.filter(x=>x.id!==editingId); persist(); closeSheet("scrim-form"); refresh();
 }
-
+ 
 /* ---------- settings ---------- */
 function saveSettings(){ settings.fx=parseFloat(document.getElementById("set-fx").value)||1.14; settings._u=Date.now(); sSet(K_SET,settings); scheduleSync(); closeSheet("scrim-set"); refresh(); }
 function seedReset(){ if(!confirm("¿Restaurar los datos de ejemplo? Se sobrescribe lo actual.")) return; items=seedData(); persist(); closeSheet("scrim-set"); refresh(); }
 function wipe(){ if(!confirm("¿Borrar TODOS los movimientos? No se puede deshacer.")) return; items.forEach(x=>gone[x.id]=Date.now()); sSet(K_GONE,gone); items=[]; persist(); closeSheet("scrim-set"); refresh(); }
-
+ 
 /* ---------- ui plumbing ---------- */
 function esc(s){ return (s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
 function persist(){ sSet(K_ITEMS,items); scheduleSync(); }
@@ -866,7 +894,7 @@ function setTab(t){
 function shiftMonth(n){ view=new Date(view.getFullYear(),view.getMonth()+n,1); renderCal(); }
 function goToday(){ view=new Date(); view.setDate(1); renderCal(); }
 function refresh(){ renderCal(); if(document.getElementById("view-gastos").style.display!=="none") renderGastos(); }
-
+ 
 /* ---------- multi-tienda ---------- */
 function renderStoreLabel(){
   const s=stores.find(x=>x.id===storeId);
@@ -919,17 +947,20 @@ async function deleteStore(id){
   if(storeId===id){ await switchStore(stores[0].id); } else { renderStoresList(); }
   scheduleSync();
 }
-
+ 
+function toggleAcc(id){ const e=document.getElementById(id); if(e) e.classList.toggle("open"); }
 function openSettings(){
   document.getElementById("set-fx").value=settings.fx;
   document.getElementById("set-token").value=gh.token||"";
   document.getElementById("set-gist").value=gh.gist||"";
   document.getElementById("sync-note").textContent = ghReady()? "Sync activo en este dispositivo." : "Sync desactivado. Configúralo para unir iPhone y Mac.";
+  // todos cerrados menos sync abierto por defecto
+  ["acc-fx","acc-sync","acc-imp","acc-data"].forEach(id=>{ const e=document.getElementById(id); if(e) e.classList.toggle("open", id==="acc-sync"); });
   openSheet("scrim-set");
 }
 document.getElementById("gear").onclick=openSettings;
 document.querySelectorAll(".scrim").forEach(s=>s.addEventListener("click",e=>{ if(e.target===s) s.classList.remove("on"); }));
-
+ 
 /* ---------- boot ---------- */
 (async function init(){
   ghCfgLoad();
@@ -945,3 +976,4 @@ document.querySelectorAll(".scrim").forEach(s=>s.addEventListener("click",e=>{ i
   if(ghReady()) syncNow(true); else setSync("","Local");
 })();
 </script>
+ 
