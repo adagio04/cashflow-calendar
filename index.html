@@ -831,6 +831,7 @@ function freqUI(){
   ["monthly","weekly","yearly","once"].forEach(k=>document.getElementById("freq-"+k).style.display=(k===f?"block":"none"));
 }
 function openForm(id, presetISO){
+  closeSheet("scrim-day");     // cierra la hoja del día para que no quede flotando detrás
   editingId=id||null;
   fillSelects();
   const del=document.getElementById("f-del");
