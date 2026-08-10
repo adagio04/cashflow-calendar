@@ -919,8 +919,10 @@ function refresh(){ renderCal(); if(document.getElementById("view-gastos").style
 /* ---------- multi-tienda ---------- */
 function renderStoreLabel(){
   const s=stores.find(x=>x.id===storeId);
+  const name=(s?s.name:"Tienda");
   const el=document.querySelector("#brandName .storetxt");
-  if(el) el.textContent=(s?s.name:"Tienda").toUpperCase();
+  if(el) el.textContent=name.toUpperCase();
+  document.title=name+" · Flujo de caja";    // el tab del navegador refleja la tienda actual
 }
 function openStores(){ renderStoresList(); openSheet("scrim-stores"); }
 function renderStoresList(){
